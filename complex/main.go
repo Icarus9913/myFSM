@@ -16,19 +16,13 @@ type IFSMState interface {
 type FSMState struct{}
 
 //进入状态
-func (this *FSMState) Enter() {
-
-}
+func (this *FSMState) Enter() {}
 
 //退出状态
-func (this *FSMState) Exit() {
-
-}
+func (this *FSMState) Exit() {}
 
 //状态转移检测
-func (this *FSMState) CheckTransaction(hour int) {
-
-}
+func (this *FSMState) CheckTransaction(hour int) {}
 
 //打坐
 type ZazenState struct {
@@ -108,6 +102,11 @@ func (this *FSM) Init() {
 	this.Reset()
 }
 
+//重置
+func (this *FSM) Reset() {
+	this.inited = false
+}
+
 //添加状态到FSM
 func (this *FSM) AddState(key string, state IFSMState) {
 	if this.states == nil {
@@ -119,6 +118,12 @@ func (this *FSM) AddState(key string, state IFSMState) {
 //设置默认的state
 func (this *FSM) SetDefaultState(state IFSMState) {
 	this.default_state = state
+}
+
+//设置输入数据
+func (this *FSM) SetInputData(inputData int) {
+	this.input_date = inputData
+	this.TransitionState()
 }
 
 //转移状态
@@ -144,16 +149,7 @@ func (this *FSM) TransitionState() {
 	}
 }
 
-//设置输入数据
-func (this *FSM) SetInputData(inputData int) {
-	this.input_date = inputData
-	this.TransitionState()
-}
 
-//重置
-func (this *FSM) Reset() {
-	this.inited = false
-}
 
 func main() {
 	zazenState := NewZazenState()
